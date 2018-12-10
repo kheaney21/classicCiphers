@@ -43,22 +43,22 @@ def getInput():
 		
 		
 def caesar(x, file):
-	'Encrypt or Decrypt via Caesar algorithm, spaces are kept for readability after decryption'
+	'Encrypt or Decrypt via Caesar algorithm'
 	uppercase = ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
 	lowercase = ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
 	
 	shift = 3
 	#encrypt if e
 	if(x == "e"):
-		pltext = str(file)
+		pltext = file.read()
 		ctext = []
 		for i in pltext:
 			if (i in uppercase):
 				#check if out of bounds
 				if(uppercase.index(i) + shift > 25):
-					ctext[i] = uppercase[uppercase.index(i) + shift - 26]
+					ctext.append(uppercase[uppercase.index(i) + shift - 26])
 				else:
-					ctext[i] = uppercase[uppercase.index(i) + shift]
+					ctext.append(uppercase[uppercase.index(i) + shift])
 			elif (i in lowercase):
 				#check if out of bounds 
 				if(lowercase.index(i) + shift > 25):
@@ -76,7 +76,7 @@ def caesar(x, file):
 		
 	#decrypt if d
 	else:
-		ctext = str(file)
+		ctext = file.read()
 		pltext = []
 		for i in ctext:
 			if (i in uppercase):
@@ -105,16 +105,78 @@ def sub(x, file):
 	'Encrypt or Decrypt via substitution algorithm'
 	#encrypt if e
 	if(x == "e"):
-		pltext = text
-		ctext = ""
-		#for i in pltext:
+		pltext = file.read()
+		ctext = []
+		
+		sub = {
+		"a" : "q", "b" : "w", "c" : "e",
+		"d" : "r", "e" : "t", "f" : "y",
+		"g" : "u", "h" : "i", "i" : "o",
+		"j" : "p", "k" : "a", "l" : "s",
+		"m" : "d", "n" : "f", "o" : "g",
+		"p" : "h", "q" : "j", "r" : "k",
+		"s" : "l", "t" : "z", "u" : "x",
+		"v" : "c", "w" : "v", "x" : "b", "y" : "n", "z" : "m",
+		"A" : "Q", "B" : "W", "C" : "E",
+		"D" : "R", "E" : "T", "F" : "Y",
+		"G" : "U", "H" : "I", "I" : "O",
+		"J" : "P", "K" : "A", "L" : "S",
+		"M" : "D", "N" : "F", "O" : "G",
+		"P" : "H", "Q" : "J", "R" : "K",
+		"S" : "L", "T" : "Z", "U" : "X",
+		"V" : "C", "W" : "V", "X" : "B", "Y" : "N","Z" : "M",
+		}
+		
+		for i in pltext:
+			if(i in sub):
+				ctext.append(sub[i])
+			else:
+				continue
+		#print ctext
+		print(''.join(ctext))		
+		#overwrite file***
+		filename = os.path.basename(file.name)
+		newFile = open(filename, 'w')
+		newFile.write(''.join(ctext))
+			
 	
 	#decrypt if d
 	else:
-		ctext = text
-		pltext = ""
+		ctext = file.read()
+		pltext = []
+		
+		sub = {
+		"q" : "a", "w" : "b", "e" : "c",
+		"r" : "d", "t" : "e", "y" : "f",
+		"u" : "g", "i" : "h", "o" : "i",
+		"p" : "j", "a" : "k", "s" : "l",
+		"d" : "m", "f" : "n", "g" : "o",
+		"h" : "p", "j" : "q", "k" : "r",
+		"l" : "s", "z" : "t", "x" : "u",
+		"c" : "v", "v" : "w", "b" : "x", "n" : "y", "m" : "z",
+		"Q" : "A", "W" : "B", "E" : "C",
+		"R" : "D", "T" : "W", "Y" : "F",
+		"U" : "G", "I" : "H", "O" : "I",
+		"P" : "J", "A" : "K", "S" : "L",
+		"D" : "M", "F" : "N", "G" : "O",
+		"H" : "P", "J" : "Q", "K" : "R",
+		"L" : "S", "Z" : "T", "X" : "U",
+		"C" : "V", "V" : "W", "B" : "X", "N" : "Y","M" : "Z",
+		}
+		
+		for i in ctext:
+			if(i in sub):
+				pltext.append(sub[i])
+			else:
+				continue
+		#print ctext
+		print(''.join(pltext))		
+		#overwrite file***
+		filename = os.path.basename(file.name)
+		newFile = open(filename, 'w')
+		newFile.write(''.join(pltext))
 		 
-def polyalpha(x, text):
+def polyalpha(x, file):
 	'Encrypt or Decrypt via poly-alphabetic algorithm (vigenere), spaces kept for readability after decryption'
 	uppercase = ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
 	lowercase = ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
@@ -124,7 +186,7 @@ def polyalpha(x, text):
 	
 	#encrypt if e
 	if(x == "e"):
-		pltext = str(file)
+		pltext = file.read()
 		ctext = []
 		for i in pltext:
 			#count to iterate through key, reset when count is greater than length of key
@@ -159,7 +221,7 @@ def polyalpha(x, text):
 			
 	#decrypt if d
 	else:
-		ctext = str(file)
+		ctext = file.read()
 		pltext = []
 		for i in ctext:
 			#count to iterate through key, reset when count is greater than length of key
