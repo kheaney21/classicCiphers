@@ -181,7 +181,11 @@ def polyalpha(x, file):
 	uppercase = ("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
 	lowercase = ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
 	
-	key = cipher
+	#enter key
+	#key = raw_input("Enter key\n")
+	
+	#hard coded to expedite testing
+	key = "cipher"
 	count = 0
 	
 	#encrypt if e
@@ -190,12 +194,12 @@ def polyalpha(x, file):
 		ctext = []
 		for i in pltext:
 			#count to iterate through key, reset when count is greater than length of key
-			if (count > len(key)):
+			if (count >= len(key)):
 				count = 0
 			shift = lowercase.index(key[count])
 			#increment count
 			count = count + 1
-			if (pltext[i] in uppercase):
+			if (i in uppercase):
 				#check if out of bounds
 				if(uppercase.index(i) + shift > 25):
 					ctext.append(uppercase[uppercase.index(i) + shift - 26])
@@ -225,16 +229,18 @@ def polyalpha(x, file):
 		pltext = []
 		for i in ctext:
 			#count to iterate through key, reset when count is greater than length of key
-			if (count > len(key)):
+			if (count >= len(key)):
 				count = 0
 			shift = lowercase.index(key[count])
-			if (ctext[i] in uppercase):
+			#increment count
+			count = count + 1
+			if (i in uppercase):
 				#check if out of bounds
 				if(uppercase.index(i) - shift < 0):
 					pltext.append(uppercase[uppercase.index(i) - shift + 26])
 				else:
 					pltext.append(uppercase[uppercase.index(i) - shift])
-			elif (ctext[i] in lowercase):
+			elif (i in lowercase):
 				#check if out of bounds
 				if(lowercase.index(i) - shift < 0):
 					pltext.append(lowercase[lowercase.index(i) - shift + 26])
